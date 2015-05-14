@@ -62,7 +62,7 @@ body {
   font-size: 1em;
   line-height: 2.2em;
   padding: 0;
-  margin: 2.5% auto;
+  margin: 1em auto;
   border-radius: 5px;
   cursor: pointer;
   font-family: 'Open Sans', sans-serif;
@@ -71,10 +71,11 @@ body {
     background: #4C9ED9;
     color: #ffffff; }
 
-.button-wrap:after {
+.clearfix:after, .button-wrap:after, .view-wrapper:after {
   content: "";
   display: table;
   clear: both; }
+
 .button-wrap .button {
   width: 45%;
   margin: 2.5%;
@@ -89,7 +90,13 @@ body {
   overflow: hidden;
   top: 0px;
   left: 0px;
-  position: relative; }
+  position: relative;
+  background: #000000; }
+  @media (min-width: 1280px) {
+    .view-wrapper {
+      background: #F5F5F5;
+      overflow: visible;
+      height: auto; } }
   .view-wrapper .header {
     position: fixed;
     top: 0;
@@ -108,19 +115,31 @@ body {
     top: 0;
     left: 0;
     overflow: hidden; }
-  @media (max-width: 899px) {
+    @media (min-width: 1280px) {
+      .view-wrapper .list-view,
+      .view-wrapper .detail-view {
+        position: static;
+        height: auto;
+        float: left;
+        margin-top: 10%; } }
+  @media (max-width: 1279px) {
     .view-wrapper[data-view="list-view"] .detail-view {
       transform: translate(100%, 0%); } }
-  @media (max-width: 899px) {
+  @media (max-width: 1279px) {
     .view-wrapper[data-view="detail-view"] .list-view {
       opacity: 0.5; } }
   .view-wrapper .list-view {
     overflow-y: auto;
-    padding-top: 3.6em;
-    transition: opacity 500ms ease; }
-    @media (min-width: 900px) {
+    padding-top: 5em;
+    transition: opacity 500ms ease;
+    z-index: 50;
+    background: #FFFFFF; }
+    @media (min-width: 1280px) {
       .view-wrapper .list-view {
-        width: 50%; } }
+        width: 30%;
+        max-width: 28em;
+        padding: 3em 0 3em 3em;
+        background: none; } }
     .view-wrapper .list-view .search .input {
       border: 1px solid #4C9ED9;
       background: none;
@@ -128,33 +147,42 @@ body {
       margin: 1em auto;
       width: 80%;
       display: block; }
-    .view-wrapper .list-view .contact {
-      height: 20%;
-      border-bottom: 1px solid #4C9ED9;
-      cursor: pointer; }
-      .view-wrapper .list-view .contact.active {
-        color: #4C9ED9;
-        font-weight: bold;
-        /* TODO: Add bold font */ }
-      .view-wrapper .list-view .contact .picture {
-        width: 20%;
-        max-width: 100px;
-        padding: 1%;
-        display: inline-block;
-        vertical-align: middle; }
-      .view-wrapper .list-view .contact .name {
-        display: inline-block;
-        vertical-align: middle;
-        max-width: 78%;
-        padding: 2.5%; }
+      @media (min-width: 1280px) {
+        .view-wrapper .list-view .search .input {
+          width: 100%; } }
+    .view-wrapper .list-view .contact-list {
+      border-top: 1px solid #4C9ED9; }
+      .view-wrapper .list-view .contact-list .contact {
+        height: 20%;
+        border-bottom: 1px solid #4C9ED9;
+        cursor: pointer; }
+        @media (min-width: 1280px) {
+          .view-wrapper .list-view .contact-list .contact.active {
+            color: #4C9ED9;
+            font-weight: bold; } }
+        .view-wrapper .list-view .contact-list .contact .picture {
+          width: 20%;
+          max-width: 100px;
+          padding: 1%;
+          display: inline-block;
+          vertical-align: middle; }
+        .view-wrapper .list-view .contact-list .contact .name {
+          display: inline-block;
+          vertical-align: middle;
+          max-width: 78%;
+          padding: 2.5%; }
+    .view-wrapper .list-view .button {
+      margin-bottom: 3em; }
   .view-wrapper .detail-view {
     transform: translate(0%, 0%);
-    transition: transform 500ms ease; }
-    @media (min-width: 900px) {
+    transition: transform 500ms ease;
+    z-index: 100; }
+    @media (min-width: 1280px) {
       .view-wrapper .detail-view {
         width: 50%;
-        left: 50%;
-        transition: none; } }
+        box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
+        transition: none;
+        margin: 10% 0 0 10%; } }
     .view-wrapper .detail-view .close-area {
       width: 10%;
       height: 100%;
@@ -162,7 +190,7 @@ body {
       top: 0;
       left: 0;
       cursor: pointer; }
-      @media (min-width: 900px) {
+      @media (min-width: 1280px) {
         .view-wrapper .detail-view .close-area {
           display: none; } }
     .view-wrapper .detail-view .content-area {
@@ -174,12 +202,15 @@ body {
       box-shadow: 0px 0px 10px #000000;
       background: #ffffff;
       overflow-y: auto;
-      padding: 3.6em 1em 0 1em; }
-      @media (min-width: 900px) {
+      padding: 5em 1em 0 1em; }
+      @media (min-width: 1280px) {
         .view-wrapper .detail-view .content-area {
           width: 100%;
           left: 0;
-          box-shadow: none; } }
+          box-shadow: none;
+          padding: 3em;
+          height: auto;
+          position: static; } }
       .view-wrapper .detail-view .content-area .picture {
         width: 50%;
         max-width: 300px; }
