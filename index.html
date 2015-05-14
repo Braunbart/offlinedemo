@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FooBar</title>
+    <link href="css/style.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+<div class="view-wrapper" data-view="detail-view">
+    <header class="header">
+        <div class="logo">Your Contacts</div>
+    </header>
+    
+    <div class="list-view">
+        <div class="search">
+            <input type="text" class="input" placeholder="Search..." />
+        </div>
+        <ol class="contact-list">
+            <li class="contact active">
+                <img class="picture" src="img/profile.jpg" alt="" />
+                <div class="name">aMax Mustermann</div>
+            </li>
+            <li class="contact">
+                <img class="picture" src="img/profile.jpg" alt="" />
+                <div class="name">bMax Mustermann</div>
+            </li>
+            <li class="contact">
+                <img class="picture" src="img/profile.jpg" alt="" />
+                <div class="name">cMax Mustermann</div>
+            </li>
+            <li class="contact">
+                <img class="picture" src="img/profile.jpg" alt="" />
+                <div class="name">dMax Mustermann</div>
+            </li>
+            <li class="contact">
+                <img class="picture" src="img/profile.jpg" alt="" />
+                <div class="name">eMax Mustermann</div>
+            </li>
+            <li class="contact">
+                <img class="picture" src="img/profile.jpg" alt="" />
+                <div class="name">fMax Mustermann</div>
+            </li>
+            <li class="contact">
+                <img class="picture" src="img/profile.jpg" alt="" />
+                <div class="name">gMax Mustermann</div>
+            </li>
+        </ol>
+        <button class="button">Add Contact</button>
+    </div>
+
+    <div class="detail-view">
+        <div class="close-area"></div>
+        <div class="content-area">
+            <img class="picture" src="img/profile.jpg" alt="" />
+            <h1 class="name">Max Mustermann</h1>
+            <h2 class="headline">Phone</h2>
+            <p class="text">+49 123 456789</p>
+            <h2 class="headline">Email</h2>
+            <p class="text">max@mustermann.de</p>
+            <h2 class="headline">Address</h2>
+            <p class="text">Musterstrasse 42</p>
+            <p class="text">12345 Musterhausen</p>
+            <h2 class="headline">Birthday</h2>
+            <p class="text">01.04.2015</p>
+            <h2 class="headline">Notes</h2>
+            <p class="text">Wichtige Person</p>
+        
+            <div class="detail-header">
+                <div class="button-wrap">
+                    <button class="button">Edit</button>
+                    <button class="button">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.querySelector('.close-area').onclick = function() {
+    document.querySelector('.view-wrapper').setAttribute("data-view", "list-view");
+};
+var contactElems = document.querySelectorAll('.contact');
+for(var i = 0; i < contactElems.length; i++) {
+    contactElems[i].onclick = function() {
+        for(var j = 0; j < contactElems.length; j++) {
+            contactElems[j].className = contactElems[j].className.replace(' active', '');
+        }
+        this.className = this.className + ' active';
+        document.querySelector('.view-wrapper').setAttribute("data-view", "detail-view");
+    };
+}
+document.querySelector('.search .input').onkeyup = function() {
+	var search = this.value.toLowerCase();
+	var contacts = document.querySelectorAll('.contact');
+	if(search == '') {
+        for(var i = 0; i < contacts.length; i++) {
+            contacts[i].querySelector('.name').innerHTML = contacts[i].querySelector('.name').textContent;
+		    contacts[i].style.display = 'block';
+        }
+		return;
+	}
+    for(var i = 0; i < contacts.length; i++) {
+	    contacts[i].style.display = 'none';
+    }
+	for(var i=0; i<contacts.length; i++) {
+		var nameElem = contacts[i].querySelector('.name');
+		var name = nameElem.textContent;
+		var nameLower = name.toLowerCase();
+		if (nameLower.indexOf(search) != -1){
+			contacts[i].style.display = 'block';
+			var highlighted = name.substring(0, nameLower.indexOf(search));
+				highlighted += "<em class='highlight'>" + name.substring(nameLower.indexOf(search), nameLower.indexOf(search)+search.length) + "</em>";
+				highlighted += name.substring(nameLower.indexOf(search) + search.length);
+			nameElem.innerHTML = highlighted;
+		}
+	}
+};
+</script>
+</body>
+</html>
