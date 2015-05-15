@@ -12,6 +12,14 @@ body {
     font-family: 'Open Sans', sans-serif;
     height: 100%;
 }
+
+.clearfix {
+    &:after {
+        content:"";
+        display:table;
+        clear:both;
+    }
+}
         
 .button {
     border: 1px solid $primary;
@@ -33,12 +41,12 @@ body {
     }
 }
 
-.clearfix {
-    &:after {
-        content:"";
-        display:table;
-        clear:both;
-    }
+.input {
+    border: 1px solid $primary;
+    background: none;
+    padding: 0.5em;
+    width: 100%;
+    display: block;
 }
 
 .button-wrap {
@@ -133,12 +141,8 @@ body {
         
         .search {
             .input {
-                border: 1px solid $primary;
-                background: none;
-                padding: 0.5em;
-                margin: 1em auto;
                 width: 80%;
-                display: block;
+                margin: 1em auto;
                 
                 @media(min-width: 1280px) {
                     width: 100%;
@@ -237,6 +241,11 @@ body {
                 color: $primary;
                 font-size: 3em;
                 margin-top: 1em;
+                
+                .input {
+                    font-size: 1em;
+                    padding: 0.25em;
+                }
             }
             
             .headline {
@@ -248,7 +257,7 @@ body {
             }
             
             .text {
-                padding: 0.5em 0.5em 0 0.5em;
+                padding: 1em 0.5em 0 0.5em;
             }
         
             .button-wrap {

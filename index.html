@@ -18,22 +18,22 @@
         <div class="close-area"></div>
         <div class="content-area">
             <img class="picture" src="img/profile.jpg" alt="" />
-            <h1 class="name">Max Mustermann</h1>
+            <h1 class="name js-editable">Max Mustermann</h1>
             <h2 class="headline">Phone</h2>
-            <p class="text">+49 123 456789</p>
+            <p class="text js-editable">+49 123 456789</p>
             <h2 class="headline">Email</h2>
-            <p class="text">max@mustermann.de</p>
+            <p class="text js-editable">max@mustermann.de</p>
             <h2 class="headline">Address</h2>
-            <p class="text">Musterstrasse 42</p>
-            <p class="text">12345 Musterhausen</p>
+            <p class="text js-editable">Musterstrasse 42</p>
+            <p class="text js-editable">12345 Musterhausen</p>
             <h2 class="headline">Birthday</h2>
-            <p class="text">01.04.2015</p>
+            <p class="text js-editable">01.04.2015</p>
             <h2 class="headline">Notes</h2>
-            <p class="text">Wichtige Person</p>
+            <p class="text js-editable">Wichtige Person</p>
         
             <div class="detail-header">
                 <div class="button-wrap">
-                    <button class="button">Edit</button>
+                    <button class="button js-edit">Edit</button>
                     <button class="button">Delete</button>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                 <div class="name">gMax Mustermann</div>
             </li>
         </ol>
-        <button class="button">Add Contact</button>
+        <button class="button js-add">Add Contact</button>
     </div>
 </div>
 
@@ -117,6 +117,21 @@ document.querySelector('.search .input').onkeyup = function() {
 			nameElem.innerHTML = highlighted;
 		}
 	}
+};
+document.querySelector('.js-add').onclick = function() {
+    var contactList = document.querySelector('.contact-list');
+    var contactHtml = '<li class="contact">';
+    contactHtml += '<img class="picture" src="img/profile.jpg" alt="" />';
+    contactHtml += '<div class="name">gMax Mustermann</div>';
+    contactHtml += '</li>';
+    contactList.innerHTML = contactList.innerHTML + contactHtml;
+};
+document.querySelector('.js-edit').onclick = function() {
+    var editables = document.querySelectorAll('.js-editable');
+    for(var i = 0; i < editables.length; i++) {
+        editables[i].innerHTML = '<input type="text" class="input" value="' + editables[i].innerHTML + '" />';
+    }
+    this.innerHTML = 'Save';
 };
 </script>
 </body>
