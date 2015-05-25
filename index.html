@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FooBar</title>
+    <title>TACTS - Your offline contacts app</title>
     <link href="css/style.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 </head>
@@ -11,13 +11,13 @@
 
 <div class="view-wrapper" data-view="detail-view">
     <header class="header">
-        <div class="logo">Your Contacts</div>
+        <div class="logo">TACTS - Your offline contacts app</div>
     </header>
     
     <div class="detail-view">
         <div class="close-area"></div>
         <div class="content-area">
-            <img class="picture" src="img/profile.jpg" alt="" />
+            <img class="picture" src="img/avatar.jpg" alt="" />
             <h1 class="name js-editable">Max Mustermann</h1>
             <h2 class="headline">Phone</h2>
             <p class="text js-editable">+49 123 456789</p>
@@ -46,31 +46,31 @@
         </div>
         <ol class="contact-list">
             <li class="contact active">
-                <img class="picture" src="img/profile.jpg" alt="" />
+                <img class="picture" src="img/avatar.jpg" alt="" />
                 <div class="name">aMax Mustermann</div>
             </li>
             <li class="contact">
-                <img class="picture" src="img/profile.jpg" alt="" />
+                <img class="picture" src="img/avatar.jpg" alt="" />
                 <div class="name">bMax Mustermann</div>
             </li>
             <li class="contact">
-                <img class="picture" src="img/profile.jpg" alt="" />
+                <img class="picture" src="img/avatar.jpg" alt="" />
                 <div class="name">cMax Mustermann</div>
             </li>
             <li class="contact">
-                <img class="picture" src="img/profile.jpg" alt="" />
+                <img class="picture" src="img/avatar.jpg" alt="" />
                 <div class="name">dMax Mustermann</div>
             </li>
             <li class="contact">
-                <img class="picture" src="img/profile.jpg" alt="" />
+                <img class="picture" src="img/avatar.jpg" alt="" />
                 <div class="name">eMax Mustermann</div>
             </li>
             <li class="contact">
-                <img class="picture" src="img/profile.jpg" alt="" />
+                <img class="picture" src="img/avatar.jpg" alt="" />
                 <div class="name">fMax Mustermann</div>
             </li>
             <li class="contact">
-                <img class="picture" src="img/profile.jpg" alt="" />
+                <img class="picture" src="img/avatar.jpg" alt="" />
                 <div class="name">gMax Mustermann</div>
             </li>
         </ol>
@@ -78,61 +78,80 @@
     </div>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> 
 <script>
-document.querySelector('.close-area').onclick = function() {
-    document.querySelector('.view-wrapper').setAttribute("data-view", "list-view");
+var TACTS = {};
+
+TACTS.init = function() {
+	this.cacheElements();
+	this.bindEvents();
 };
-var contactElems = document.querySelectorAll('.contact');
-for(var i = 0; i < contactElems.length; i++) {
-    contactElems[i].onclick = function() {
-        for(var j = 0; j < contactElems.length; j++) {
-            contactElems[j].className = contactElems[j].className.replace(' active', '');
-        }
-        this.className = this.className + ' active';
-        document.querySelector('.view-wrapper').setAttribute("data-view", "detail-view");
-    };
-}
-document.querySelector('.search .input').onkeyup = function() {
-	var search = this.value.toLowerCase();
-	var contacts = document.querySelectorAll('.contact');
-	if(search == '') {
-        for(var i = 0; i < contacts.length; i++) {
-            contacts[i].querySelector('.name').innerHTML = contacts[i].querySelector('.name').textContent;
-		    contacts[i].style.display = 'block';
-        }
+
+TACTS.cacheElements = function() {
+    this.$closeArea = $('.close-area');
+    this.$viewWrapper = $('.view-wrapper');
+    this.$contact = $('.contact');
+    this.$searchInput = $('.search .input');
+    this.$addButton = $('.js-add');
+    this.$editButton = $('.js-edit');
+    this.$contactList = $('.contact-list');
+    this.$editables = $('.js-editable');
+};
+
+TACTS.bindEvents = function() {
+	this.$closeArea.on('click', this.showListView.bind(this));
+	this.$contact.on('click', this.showDetailView.bind(this));
+	this.$searchInput.on('keyup', this.searchList.bind(this));
+	this.$addButton.on('click', this.addContact.bind(this));
+	this.$editButton.on('click', this.editContact.bind(this));
+};
+
+TACTS.showListView = function() {
+    this.$viewWrapper.attr("data-view", "list-view");
+};
+
+TACTS.showDetailView = function(e) {
+    this.$contact.removeClass('active');
+    $(e.delegateTarget).addClass('active');
+    this.$viewWrapper.attr("data-view", "detail-view");
+};
+
+TACTS.addContact = function() {
+    var contactHtml = '<li class="contact">';
+    contactHtml += '<img class="picture" src="img/avatar.jpg" alt="" />';
+    contactHtml += '<div class="name">gMax Mustermann</div>';
+    contactHtml += '</li>';
+    this.$contactList.append(contactHtml);
+};
+
+TACTS.editContact = function(e) {
+    this.$editables.html('<input type="text" class="input" value="' + this.$editables.text() + '" />');
+    $(e.delegateTarget).html('Save');
+};
+
+TACTS.searchList = function(e) {
+    var search = $(e.delegateTarget).val().toLowerCase();
+	this.$contact.find('em').contents().unwrap().end();
+	if($.trim(search) == '') {
+		this.$contact.show();
 		return;
 	}
-    for(var i = 0; i < contacts.length; i++) {
-	    contacts[i].style.display = 'none';
-    }
-	for(var i=0; i<contacts.length; i++) {
-		var nameElem = contacts[i].querySelector('.name');
-		var name = nameElem.textContent;
-		var nameLower = name.toLowerCase();
-		if (nameLower.indexOf(search) != -1){
-			contacts[i].style.display = 'block';
-			var highlighted = name.substring(0, nameLower.indexOf(search));
-				highlighted += "<em class='highlight'>" + name.substring(nameLower.indexOf(search), nameLower.indexOf(search)+search.length) + "</em>";
-				highlighted += name.substring(nameLower.indexOf(search) + search.length);
-			nameElem.innerHTML = highlighted;
+	this.$contact.hide();
+	for(var i=0; i<this.$contact.length; i++) {
+		var user = $(this.$contact[i]).find('.name').text().toLowerCase();
+		if (user.indexOf(search) != -1){
+			$(this.$contact[i]).show();
+			var highlighted = $(this.$contact[i]).find('.name').html().substring(0,user.indexOf(search));
+				highlighted += "<em class='highlight'>" + $(this.$contact[i]).find('.name').html().substring(user.indexOf(search),user.indexOf(search)+search.length) + "</em>";
+				highlighted += $(this.$contact[i]).find('.name').html().substring(user.indexOf(search)+search.length);
+			$(this.$contact[i]).find('.name').html(highlighted);
 		}
 	}
 };
-document.querySelector('.js-add').onclick = function() {
-    var contactList = document.querySelector('.contact-list');
-    var contactHtml = '<li class="contact">';
-    contactHtml += '<img class="picture" src="img/profile.jpg" alt="" />';
-    contactHtml += '<div class="name">gMax Mustermann</div>';
-    contactHtml += '</li>';
-    contactList.innerHTML = contactList.innerHTML + contactHtml;
-};
-document.querySelector('.js-edit').onclick = function() {
-    var editables = document.querySelectorAll('.js-editable');
-    for(var i = 0; i < editables.length; i++) {
-        editables[i].innerHTML = '<input type="text" class="input" value="' + editables[i].innerHTML + '" />';
-    }
-    this.innerHTML = 'Save';
-};
+
+$(document).ready(function() {
+	TACTS.init();
+});
 </script>
 </body>
 </html>
