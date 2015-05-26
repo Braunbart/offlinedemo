@@ -9,146 +9,28 @@
 </head>
 <body>
 
-<div class="view-wrapper" data-view="detail-view">
+<div class="view-wrapper" data-view="list-view">
     <header class="header">
         <div class="logo">TACTS - Your offline contacts app</div>
     </header>
     
-    <div class="detail-view">
+    <div class="detail-view" data-id="">
         <div class="close-area"></div>
-        <div class="content-area">
-            <img class="picture" src="img/avatar.jpg" alt="" />
-            <h1 class="name js-editable">Max Mustermann</h1>
-            <h2 class="headline">Phone</h2>
-            <p class="text js-editable">+49 123 456789</p>
-            <h2 class="headline">Email</h2>
-            <p class="text js-editable">max@mustermann.de</p>
-            <h2 class="headline">Address</h2>
-            <p class="text js-editable">Musterstrasse 42</p>
-            <p class="text js-editable">12345 Musterhausen</p>
-            <h2 class="headline">Birthday</h2>
-            <p class="text js-editable">01.04.2015</p>
-            <h2 class="headline">Notes</h2>
-            <p class="text js-editable">Wichtige Person</p>
-        
-            <div class="detail-header">
-                <div class="button-wrap">
-                    <button class="button js-edit">Edit</button>
-                    <button class="button">Delete</button>
-                </div>
-            </div>
-        </div>
+        <div class="content-area"></div>
     </div>
     
     <div class="list-view">
         <div class="search">
             <input type="text" class="input" placeholder="Search..." />
         </div>
-        <ol class="contact-list">
-            <li class="contact active">
-                <img class="picture" src="img/avatar.jpg" alt="" />
-                <div class="name">aMax Mustermann</div>
-            </li>
-            <li class="contact">
-                <img class="picture" src="img/avatar.jpg" alt="" />
-                <div class="name">bMax Mustermann</div>
-            </li>
-            <li class="contact">
-                <img class="picture" src="img/avatar.jpg" alt="" />
-                <div class="name">cMax Mustermann</div>
-            </li>
-            <li class="contact">
-                <img class="picture" src="img/avatar.jpg" alt="" />
-                <div class="name">dMax Mustermann</div>
-            </li>
-            <li class="contact">
-                <img class="picture" src="img/avatar.jpg" alt="" />
-                <div class="name">eMax Mustermann</div>
-            </li>
-            <li class="contact">
-                <img class="picture" src="img/avatar.jpg" alt="" />
-                <div class="name">fMax Mustermann</div>
-            </li>
-            <li class="contact">
-                <img class="picture" src="img/avatar.jpg" alt="" />
-                <div class="name">gMax Mustermann</div>
-            </li>
-        </ol>
+        <ol class="contact-list"></ol>
         <button class="button js-add">Add Contact</button>
     </div>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> 
+<script src="js/tacts.js"></script> 
 <script>
-var TACTS = {};
-
-TACTS.init = function() {
-	this.cacheElements();
-	this.bindEvents();
-};
-
-TACTS.cacheElements = function() {
-    this.$closeArea = $('.close-area');
-    this.$viewWrapper = $('.view-wrapper');
-    this.$contact = $('.contact');
-    this.$searchInput = $('.search .input');
-    this.$addButton = $('.js-add');
-    this.$editButton = $('.js-edit');
-    this.$contactList = $('.contact-list');
-    this.$editables = $('.js-editable');
-};
-
-TACTS.bindEvents = function() {
-	this.$closeArea.on('click', this.showListView.bind(this));
-	this.$contact.on('click', this.showDetailView.bind(this));
-	this.$searchInput.on('keyup', this.searchList.bind(this));
-	this.$addButton.on('click', this.addContact.bind(this));
-	this.$editButton.on('click', this.editContact.bind(this));
-};
-
-TACTS.showListView = function() {
-    this.$viewWrapper.attr("data-view", "list-view");
-};
-
-TACTS.showDetailView = function(e) {
-    this.$contact.removeClass('active');
-    $(e.delegateTarget).addClass('active');
-    this.$viewWrapper.attr("data-view", "detail-view");
-};
-
-TACTS.addContact = function() {
-    var contactHtml = '<li class="contact">';
-    contactHtml += '<img class="picture" src="img/avatar.jpg" alt="" />';
-    contactHtml += '<div class="name">gMax Mustermann</div>';
-    contactHtml += '</li>';
-    this.$contactList.append(contactHtml);
-};
-
-TACTS.editContact = function(e) {
-    this.$editables.html('<input type="text" class="input" value="' + this.$editables.text() + '" />');
-    $(e.delegateTarget).html('Save');
-};
-
-TACTS.searchList = function(e) {
-    var search = $(e.delegateTarget).val().toLowerCase();
-	this.$contact.find('em').contents().unwrap().end();
-	if($.trim(search) == '') {
-		this.$contact.show();
-		return;
-	}
-	this.$contact.hide();
-	for(var i=0; i<this.$contact.length; i++) {
-		var user = $(this.$contact[i]).find('.name').text().toLowerCase();
-		if (user.indexOf(search) != -1){
-			$(this.$contact[i]).show();
-			var highlighted = $(this.$contact[i]).find('.name').html().substring(0,user.indexOf(search));
-				highlighted += "<em class='highlight'>" + $(this.$contact[i]).find('.name').html().substring(user.indexOf(search),user.indexOf(search)+search.length) + "</em>";
-				highlighted += $(this.$contact[i]).find('.name').html().substring(user.indexOf(search)+search.length);
-			$(this.$contact[i]).find('.name').html(highlighted);
-		}
-	}
-};
-
 $(document).ready(function() {
 	TACTS.init();
 });
